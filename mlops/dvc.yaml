@@ -1,0 +1,22 @@
+stages:
+  validate:
+    cmd: python -m mlops.src.data.validate --dataset dataset
+    deps:
+      - dataset
+      - mlops/src/data/validate.py
+  build_dataset:
+    cmd: python -m mlops.src.features.build_dataset --dataset dataset --output mlops/data/processed/training.csv
+    deps:
+      - dataset
+      - mlops/src/features/build_dataset.py
+    outs:
+      - mlops/data/processed/training.csv
+  train:
+    cmd: python -m mlops.src.models.train
+    deps:
+      - mlops/data/processed/training.csv
+      - mlops/src/models/train.py
+    outs:
+      - mlops/models/rockettwin_xgb.joblib
+    metrics:
+      - mlops/reports/metrics.json

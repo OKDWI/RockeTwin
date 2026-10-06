@@ -1,0 +1,25 @@
+scenario_id,component_id,description,fault_injection_time_seconds,nasa_reference
+1,pv03,LOX Feed Valve sticks closed,9410,PITEX Real-World Challenges Table 1
+2,sv33,LOX Feed Servo Valve fails closed,9539.79,PITEX Real-World Challenges Table 1
+3,sv31,LOX Tank Vent Relief Servo Valve sticks open,2706.9,PITEX Real-World Challenges Table 1
+4,sv31,LOX Tank Vent Relief Servo Valve fails open,5000,PITEX Real-World Challenges Table 1
+5,vr01,LOX Tank Vent Relief Valve sticks open,2706.9,PITEX Real-World Challenges Table 1
+6,vr01,LOX Tank Vent Relief Valve fails open,5000,PITEX Real-World Challenges Table 1
+7,sv31,LOX Tank Vent Relief Servo Valve sticks closed,5167.4,PITEX Real-World Challenges Table 1
+8,sv31,LOX Tank Vent Relief Servo Valve fails closed,3331,PITEX Real-World Challenges Table 1
+9,vr01,LOX Tank Vent Relief Valve sticks closed,5167.4,PITEX Real-World Challenges Table 1
+10,rg11,Pressurization Regulator regulates high,9000,PITEX Real-World Challenges Table 1
+11,rg11,Pressurization Regulator regulates low,9642.67,PITEX Real-World Challenges Table 1
+12,sv03,LOX Tank Pressurization Valve sticks open,9735.29,PITEX Real-World Challenges Table 1
+13,sv03,LOX Tank Pressurization Valve sticks closed,9766.05,PITEX Real-World Challenges Table 1
+14,mmsw205x,Open microswitch fails on LOX vent/relief solenoid valve SV31,3301.7,PITEX Real-World Challenges Table 1
+15,mmsw213x,Close microswitch fails on LOX feed valve PV03,9410,PITEX Real-World Challenges Table 1
+16,pv02,RP-1 feed valve fails closed after RP-1 bleed initiated,9359,PITEX Real-World Challenges Table 1
+17,vr06,RP-1 vent/relief pneumatic valve fails open,9379,PITEX Real-World Challenges Table 1
+18,sv02,Primary RP-1 tank pressurization valve sticks closed,9383.86,PITEX Real-World Challenges Table 1
+19,sv02,Primary RP-1 tank pressurization valve sticks open,9384.71,PITEX Real-World Challenges Table 1
+20,sv31,Open microswitch fails on SV31; SV31 subsequently fails closed,3301.7,PITEX Real-World Challenges Table 1
+21,rg11_rg01,GHe pressurization regulators RG11 and RG01 both regulate high,9000,PITEX Real-World Challenges Table 1
+22,mpre202p_mpre212p,Two LOX vent line pressure sensors fail high,0.0,PITEX Real-World Challenges Table 1
+23,mpre202p_mpre212p,Two LOX vent line pressure sensors fail low,0.0,PITEX Real-World Challenges Table 1
+24,aft_lox_flapper,Last lower flapper valve in aft LOX tank fails shut,9199,PITEX Real-World Challenges Table 1

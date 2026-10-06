@@ -1,0 +1,8 @@
+phase_order,phase_name,event,time_seconds,nasa_reference
+1,LOCKUP,Tank lock-up begins (start of captive carry),0,PITEX Overview / Real-World Challenges DRM
+2,ASCENT,Ascent to 38000 ft begins,0,PITEX Overview / Real-World Challenges DRM
+3,LOX_CONDITIONING,Enable LOX tank vent control,1800,PITEX Overview / Real-World Challenges DRM
+4,PRESSURIZATION,Enable pressurization system,9000,PITEX Overview / Real-World Challenges DRM
+5,RP1_BLEED,RP-1 engine bleed begins,9229,PITEX Overview / Real-World Challenges DRM
+6,LOX_CHILLDOWN_BLEED,LOX chilldown / engine bleed begins,9410,PITEX Overview / Real-World Challenges DRM
+7,FREE_FLIGHT,Initiate free-flight control (end of captive carry),9776,PITEX Overview / Real-World Challenges DRM

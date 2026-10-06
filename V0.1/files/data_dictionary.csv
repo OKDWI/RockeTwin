@@ -1,0 +1,95 @@
+subsystem,component_id,component_name,sensor_tags,variable_type,nominal_mode,fault_mode,fault_rank,nasa_reference
+pressurization,tk01,Helium tank,,continuous,Output pressure > secondary regulator setpoint,,,Livingstone Table 1
+pressurization,sv01,Enabling valve,,discrete,"open: input=output; closed: output=ambient",,,Livingstone Table 1
+pressurization,rg01,Regulator (primary),,continuous,"Pin>=setpoint: output=setpoint; Pin<setpoint: output=input",Regulating high,2,Livingstone Table 1
+pressurization,rg01,Regulator (primary),,continuous,"Pin>=setpoint: output=setpoint; Pin<setpoint: output=input",Regulating low,2,Livingstone Table 1
+pressurization,rg01,Regulator (primary),,continuous,"Pin>=setpoint: output=setpoint; Pin<setpoint: output=input",Unknown,4,Livingstone Table 1
+pressurization,rg11,Regulator (secondary),,continuous,"Pin>=setpoint: output=setpoint; Pin<setpoint: output=input",Regulating high,2,Livingstone Table 1
+pressurization,rg11,Regulator (secondary),,continuous,"Pin>=setpoint: output=setpoint; Pin<setpoint: output=input",Regulating low,2,Livingstone Table 1
+pressurization,rg11,Regulator (secondary),,continuous,"Pin>=setpoint: output=setpoint; Pin<setpoint: output=input",Unknown,4,Livingstone Table 1
+pressurization,sv02,Pressurization valve,,discrete,"open & pressure>=primary setpoint: flow>0; closed: flow=0",Stuck open,3,Livingstone Table 1
+pressurization,sv02,Pressurization valve,,discrete,"open & pressure>=primary setpoint: flow>0; closed: flow=0",Stuck closed,2,Livingstone Table 1
+pressurization,sv02,Pressurization valve,,discrete,"open & pressure>=primary setpoint: flow>0; closed: flow=0",Unknown,5,Livingstone Table 1
+pressurization,sv03,Pressurization valve,,discrete,"open & pressure>=primary setpoint: flow>0; closed: flow=0",Stuck open,3,Livingstone Table 1
+pressurization,sv03,Pressurization valve,,discrete,"open & pressure>=primary setpoint: flow>0; closed: flow=0",Stuck closed,2,Livingstone Table 1
+pressurization,sv03,Pressurization valve,,discrete,"open & pressure>=primary setpoint: flow>0; closed: flow=0",Unknown,5,Livingstone Table 1
+pressurization,mmsw102x,Microswitch,,discrete,PositionReading=sensedPosition,Faulty,3,Livingstone Table 1
+pressurization,mmsw103x,Microswitch,,discrete,PositionReading=sensedPosition,Faulty,3,Livingstone Table 1
+pressurization,mpre101p,Pressure sensor,mpre101p,continuous,PressureReading=sensedPressure,Faulty,2,Livingstone Table 1
+pressurization,mpre103p,Pressure sensor,mpre103p,continuous,PressureReading=sensedPressure,Faulty,2,Livingstone Table 1
+pressurization,mrtd103t,Temperature sensor,mrtd103t,continuous,TemperatureReading=sensedTemperature,Faulty,2,Livingstone Table 1
+pneumatics,tk02,Helium tank,,continuous,Output pressure > secondary regulator setpoint,,,Livingstone Table 1
+pneumatics,rg02,Regulator,,continuous,"Pin>=setpoint: output=setpoint; Pin<setpoint: output=input",Regulating high,2,Livingstone Table 1
+pneumatics,rg02,Regulator,,continuous,"Pin>=setpoint: output=setpoint; Pin<setpoint: output=input",Regulating low,2,Livingstone Table 1
+pneumatics,rg02,Regulator,,continuous,"Pin>=setpoint: output=setpoint; Pin<setpoint: output=input",Unknown,4,Livingstone Table 1
+pneumatics,rg21,Regulator,,continuous,"Pin>=setpoint: output=setpoint; Pin<setpoint: output=input",Regulating high,2,Livingstone Table 1
+pneumatics,rg21,Regulator,,continuous,"Pin>=setpoint: output=setpoint; Pin<setpoint: output=input",Regulating low,2,Livingstone Table 1
+pneumatics,rg21,Regulator,,continuous,"Pin>=setpoint: output=setpoint; Pin<setpoint: output=input",Unknown,4,Livingstone Table 1
+pneumatics,sv31,Solenoid valve,,discrete,"open & pressure>=primary setpoint: flow>0; closed: flow=0",Stuck open,3,Livingstone Table 1
+pneumatics,sv31,Solenoid valve,,discrete,"open & pressure>=primary setpoint: flow>0; closed: flow=0",Stuck closed,2,Livingstone Table 1
+pneumatics,sv31,Solenoid valve,,discrete,"open & pressure>=primary setpoint: flow>0; closed: flow=0",Unknown,5,Livingstone Table 1
+pneumatics,sv32,Solenoid valve,,discrete,"open & pressure>=primary setpoint: flow>0; closed: flow=0",Stuck open,3,Livingstone Table 1
+pneumatics,sv32,Solenoid valve,,discrete,"open & pressure>=primary setpoint: flow>0; closed: flow=0",Stuck closed,2,Livingstone Table 1
+pneumatics,sv32,Solenoid valve,,discrete,"open & pressure>=primary setpoint: flow>0; closed: flow=0",Unknown,5,Livingstone Table 1
+pneumatics,sv33,Solenoid valve,,discrete,"open & pressure>=primary setpoint: flow>0; closed: flow=0",Stuck open,3,Livingstone Table 1
+pneumatics,sv33,Solenoid valve,,discrete,"open & pressure>=primary setpoint: flow>0; closed: flow=0",Stuck closed,2,Livingstone Table 1
+pneumatics,sv33,Solenoid valve,,discrete,"open & pressure>=primary setpoint: flow>0; closed: flow=0",Unknown,5,Livingstone Table 1
+pneumatics,sv36,Solenoid valve,,discrete,"open & pressure>=primary setpoint: flow>0; closed: flow=0",Stuck open,3,Livingstone Table 1
+pneumatics,sv36,Solenoid valve,,discrete,"open & pressure>=primary setpoint: flow>0; closed: flow=0",Stuck closed,2,Livingstone Table 1
+pneumatics,sv36,Solenoid valve,,discrete,"open & pressure>=primary setpoint: flow>0; closed: flow=0",Unknown,5,Livingstone Table 1
+pneumatics,sv37,Solenoid valve,,discrete,"open & pressure>=primary setpoint: flow>0; closed: flow=0",Stuck open,3,Livingstone Table 1
+pneumatics,sv37,Solenoid valve,,discrete,"open & pressure>=primary setpoint: flow>0; closed: flow=0",Stuck closed,2,Livingstone Table 1
+pneumatics,sv37,Solenoid valve,,discrete,"open & pressure>=primary setpoint: flow>0; closed: flow=0",Unknown,5,Livingstone Table 1
+pneumatics,mmsw205x,Microswitch,,discrete,PositionReading=sensedPosition,Faulty,3,Livingstone Table 1
+pneumatics,mmsw303x,Microswitch,,discrete,PositionReading=sensedPosition,Faulty,3,Livingstone Table 1
+pneumatics,mpre102p,Pressure sensor,mpre102p,continuous,PressureReading=sensedPressure,Faulty,2,Livingstone Table 1
+pneumatics,mpre107p,Pressure sensor,mpre107p,continuous,PressureReading=sensedPressure,Faulty,2,Livingstone Table 1
+lox,forwardLO2,LOX tank (forward),,continuous,see tank pressure-rate table,Unknown,6,Livingstone Table 1 / Table 2
+lox,aftLO2,LOX tank (aft),,continuous,see tank pressure-rate table (pass-through),Unknown,6,Livingstone Table 1 / Table 2
+lox,vr01,Vent relief valve,,discrete,"open: flow>0 & temp in LOX range; closed: flow=0 & temp in ambient range",Stuck open,2,Livingstone Table 1
+lox,vr01,Vent relief valve,,discrete,"open: flow>0 & temp in LOX range; closed: flow=0 & temp in ambient range",Stuck closed,1,Livingstone Table 1
+lox,vr01,Vent relief valve,,discrete,"open: flow>0 & temp in LOX range; closed: flow=0 & temp in ambient range",Unknown,4,Livingstone Table 1
+lox,pv03,Engine inlet valve,,discrete,"open: pressure>=pressurizationIndicator; closed: flowIn=flowOut=0",Stuck open,2,Livingstone Table 1
+lox,pv03,Engine inlet valve,,discrete,"open: pressure>=pressurizationIndicator; closed: flowIn=flowOut=0",Stuck closed,1,Livingstone Table 1
+lox,mmsw203x,Microswitch,,discrete,PositionReading=sensedPosition,Faulty,3,Livingstone Table 1
+lox,mmsw213x,Microswitch,,discrete,PositionReading=sensedPosition,Faulty,3,Livingstone Table 1
+lox,mpre104p,Pressure sensor,mpre104p,continuous,PressureReading=sensedPressure,Faulty,2,Livingstone Table 1
+lox,mpre201p,Pressure sensor,mpre201p,continuous,PressureReading=sensedPressure,Faulty,2,Livingstone Table 1
+lox,mpre204p,Pressure sensor,mpre204p,continuous,PressureReading=sensedPressure,Faulty,2,Livingstone Table 1
+lox,mpre205p,Pressure sensor,mpre205p,continuous,PressureReading=sensedPressure,Faulty,2,Livingstone Table 1
+lox,mpre202p,Controller pressure sensor,mpre202p,continuous,PressureReading=sensedPressure & sensor not biased,Biased,1,Livingstone Table 1
+lox,mpre202p,Controller pressure sensor,mpre202p,continuous,PressureReading=sensedPressure & sensor not biased,Faulty,2,Livingstone Table 1
+lox,mpre212p,Controller pressure sensor,mpre212p,continuous,PressureReading=sensedPressure & sensor not biased,Biased,1,Livingstone Table 1
+lox,mpre212p,Controller pressure sensor,mpre212p,continuous,PressureReading=sensedPressure & sensor not biased,Faulty,2,Livingstone Table 1
+lox,mpre222p,Controller pressure sensor,mpre222p,continuous,PressureReading=sensedPressure & sensor not biased,Biased,1,Livingstone Table 1
+lox,mpre222p,Controller pressure sensor,mpre222p,continuous,PressureReading=sensedPressure & sensor not biased,Faulty,2,Livingstone Table 1
+lox,mrtd104t,Temperature sensor,mrtd104t,continuous,TemperatureReading=sensedTemperature,Faulty,2,Livingstone Table 1
+lox,mrtd201t,Temperature sensor,mrtd201t,continuous,TemperatureReading=sensedTemperature,Faulty,2,Livingstone Table 1
+lox,mrtd203t,Temperature sensor,mrtd203t,continuous,TemperatureReading=sensedTemperature,Faulty,2,Livingstone Table 1
+lox,mrtd204t,Temperature sensor,mrtd204t,continuous,TemperatureReading=sensedTemperature,Faulty,2,Livingstone Table 1
+lox,mrtd205t,Temperature sensor,mrtd205t,continuous,TemperatureReading=sensedTemperature,Faulty,2,Livingstone Table 1
+rp1,rp1Tank,RP-1 tank,,continuous,see tank pressure-rate table,Unknown,6,Livingstone Table 1 / Table 3
+rp1,vr06,Vent relief valve,,discrete,"open: flow>0 & temp in RP-1 range; closed: flow=0 & temp in ambient range",Stuck open,2,Livingstone Table 1
+rp1,vr06,Vent relief valve,,discrete,"open: flow>0 & temp in RP-1 range; closed: flow=0 & temp in ambient range",Stuck closed,1,Livingstone Table 1
+rp1,vr06,Vent relief valve,,discrete,"open: flow>0 & temp in RP-1 range; closed: flow=0 & temp in ambient range",Unknown,4,Livingstone Table 1
+rp1,pv07,Engine inlet valve,,discrete,"open: pressure>=pressurizationIndicator; closed: flowIn=flowOut=0",Stuck open,2,Livingstone Table 1
+rp1,pv07,Engine inlet valve,,discrete,"open: pressure>=pressurizationIndicator; closed: flowIn=flowOut=0",Stuck closed,1,Livingstone Table 1
+rp1,pv02,Engine inlet valve,,discrete,"open: pressure>=pressurizationIndicator; closed: flowIn=flowOut=0",Stuck open,2,Livingstone Table 1
+rp1,pv02,Engine inlet valve,,discrete,"open: pressure>=pressurizationIndicator; closed: flowIn=flowOut=0",Stuck closed,1,Livingstone Table 1
+rp1,mmsw304x,Microswitch,,discrete,PositionReading=sensedPosition,Faulty,3,Livingstone Table 1
+rp1,mmsw314x,Microswitch,,discrete,PositionReading=sensedPosition,Faulty,3,Livingstone Table 1
+rp1,mmsw301x,Microswitch,,discrete,PositionReading=sensedPosition,Faulty,3,Livingstone Table 1
+rp1,mmsw311x,Microswitch,,discrete,PositionReading=sensedPosition,Faulty,3,Livingstone Table 1
+rp1,mpre105p,Pressure sensor,mpre105p,continuous,PressureReading=sensedPressure,Faulty,2,Livingstone Table 1
+rp1,mpre302p,Pressure sensor,mpre302p,continuous,PressureReading=sensedPressure,Faulty,2,Livingstone Table 1
+rp1,mpre304p,Pressure sensor,mpre304p,continuous,PressureReading=sensedPressure,Faulty,2,Livingstone Table 1
+rp1,mpre301p,Controller pressure sensor,mpre301p,continuous,PressureReading=sensedPressure & sensor not biased,Biased,1,Livingstone Table 1
+rp1,mpre301p,Controller pressure sensor,mpre301p,continuous,PressureReading=sensedPressure & sensor not biased,Faulty,2,Livingstone Table 1
+rp1,mpre311p,Controller pressure sensor,mpre311p,continuous,PressureReading=sensedPressure & sensor not biased,Biased,1,Livingstone Table 1
+rp1,mpre311p,Controller pressure sensor,mpre311p,continuous,PressureReading=sensedPressure & sensor not biased,Faulty,2,Livingstone Table 1
+rp1,mpre321p,Controller pressure sensor,mpre321p,continuous,PressureReading=sensedPressure & sensor not biased,Biased,1,Livingstone Table 1
+rp1,mpre321p,Controller pressure sensor,mpre321p,continuous,PressureReading=sensedPressure & sensor not biased,Faulty,2,Livingstone Table 1
+rp1,mrtd105t,Temperature sensor,mrtd105t,continuous,TemperatureReading=sensedTemperature,Faulty,2,Livingstone Table 1
+rp1,mrtd301t,Temperature sensor,mrtd301t,continuous,TemperatureReading=sensedTemperature,Faulty,2,Livingstone Table 1
+rp1,mrtd302t,Temperature sensor,mrtd302t,continuous,TemperatureReading=sensedTemperature,Faulty,2,Livingstone Table 1
+rp1,mrtd304t,Temperature sensor,mrtd304t,continuous,TemperatureReading=sensedTemperature,Faulty,2,Livingstone Table 1

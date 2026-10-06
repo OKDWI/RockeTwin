@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# MLflow
+mlflow.db
+mlruns/
+
+# Generated ML artifacts
+mlops/models/
+mlops/reports/
+
+# Generated processed data
+mlops/data/processed/
+
+# DVC cache
+.dvc/cache/
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+/dataset
