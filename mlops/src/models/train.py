@@ -27,6 +27,7 @@ def main(data_path="mlops/data/processed/training.csv", model_dir="mlops/models"
     X_test = test.drop(columns=META)
     y_train = train[TARGET]
     y_test = test[TARGET]
+    
     classes = sorted(y_train.unique())
     mapping = {label: i for i, label in enumerate(classes)}
     inv = {i: label for label, i in mapping.items()}
@@ -38,8 +39,29 @@ def main(data_path="mlops/data/processed/training.csv", model_dir="mlops/models"
     )
     if mlflow_available:
         mlflow.set_experiment("RocketTwin-Fault-Detection")
-        run_ctx = mlflow.start_run(run_name="xgboost-baseline")
-        mlflow.log_params({"n_estimators": 250, "max_depth": 6, "learning_rate": 0.08, "test_size": 0.2, "split_unit": "mission"})
+        run_ctx = mlflow.start_run(run_name="xgboost-temporal-no-timestamp")
+
+        mlflow.log_params({
+            "n_estimators": 250,
+            "max_depth": 6,
+            "learning_rate": 0.08,
+            "test_size": 0.2,
+            "split_unit": "mission",
+            "experiment_type": "observable_onset",
+            "label_policy": "max_simulated_onset_and_observable_onset",
+            "pv02_observable_onset": 9359.0,
+            "pv03_observable_onset": 9410.0,
+            "temporal_windows": "3,10,30",
+            "timestamp_feature": False,
+        })
+
+        mlflow.set_tags({
+            "experiment": "Experiment 4",
+            "task": "fault_detection",
+            "label_policy": "telemetry_observable_onset",
+            "feature_strategy": "multi_timescale_temporal",
+            "timestamp_leakage_removed": "true",
+        })
     else:
         run_ctx = None
     model.fit(X_train, y_train.map(mapping))

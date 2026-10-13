@@ -20,6 +20,14 @@ FAULT_MAP = {
     "pv02_stuck_closed": "pv02_stuck_closed",
 }
 
+# Some valve faults can be injected before the affected valve is
+# commanded open. Before that point, telemetry cannot distinguish the
+# stuck-closed fault from nominal behavior.
+OBSERVABLE_ONSET = {
+    "pv03_stuck_closed": 9410.0,
+    "pv02_stuck_closed": 9359.0,
+}
+
 
 def event_for_mission(events_dir: Path, mission_id: str):
     path = events_dir / f"{mission_id}.csv"
@@ -40,10 +48,19 @@ def event_for_mission(events_dir: Path, mission_id: str):
 def add_features(df: pd.DataFrame) -> pd.DataFrame:
     df = df.sort_values(["mission_id", "mission_time_s"]).copy()
     for col in NUMERIC_TELEMETRY[1:]:
-        df[f"{col}_diff"] = df.groupby("mission_id")[col].diff().fillna(0.0)
         grouped = df.groupby("mission_id")[col]
-        df[f"{col}_roll_mean_3"] = grouped.transform(lambda s: s.rolling(3, min_periods=1).mean())
-        df[f"{col}_roll_std_3"] = grouped.transform(lambda s: s.rolling(3, min_periods=1).std().fillna(0.0))
+
+        # Immediate change
+        df[f"{col}_diff"] = grouped.diff().fillna(0.0)
+
+        # Multi-timescale temporal context
+        for window in [3, 10, 30]:
+            df[f"{col}_roll_mean_{window}"] = grouped.transform(
+                lambda s, w=window: s.rolling(w, min_periods=1).mean()
+            )
+            df[f"{col}_roll_std_{window}"] = grouped.transform(
+                lambda s, w=window: s.rolling(w, min_periods=1).std().fillna(0.0)
+            )
     phase = pd.get_dummies(df["flight_phase"], prefix="phase", dtype=float)
     df = pd.concat([df.drop(columns=["flight_phase"]), phase], axis=1)
     return df
@@ -63,14 +80,32 @@ def build_dataset(dataset_dir: Path, output: Path) -> pd.DataFrame:
             df["fault_present"] = 0
             df["fault_component"] = "none"
         else:
-            df["target"] = df["mission_time_s"].ge(event["onset"]).map({True: event["label"], False: "nominal"})
+            effective_onset = max(
+                event["onset"],
+                OBSERVABLE_ONSET.get(event["label"], event["onset"]),
+            )
+
+            df["target"] = (
+                df["mission_time_s"]
+                .ge(effective_onset)
+                .map({True: event["label"], False: "nominal"})
+            )
+
             df["fault_present"] = (df["target"] != "nominal").astype(int)
             df["fault_component"] = event["component"]
         rows.append(df)
     data = pd.concat(rows, ignore_index=True)
     data = add_features(data)
     # Prevent simulator's commanded/actual valve-state columns from leaking the answer.
-    drop = ["rocket_id", "mission_id", "fault_component", "target", "fault_present", *DISCRETE_STATE_COLUMNS]
+    drop = [
+        "rocket_id",
+        "mission_id",
+        "mission_time_s",
+        "fault_component",
+        "target",
+        "fault_present",
+        *DISCRETE_STATE_COLUMNS,
+    ]
     feature_cols = [c for c in data.columns if c not in drop]
     result = data[["mission_id", "mission_time_s", "target", "fault_present", *feature_cols]]
     output.parent.mkdir(parents=True, exist_ok=True)
