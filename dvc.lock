@@ -1,0 +1,52 @@
+schema: '2.0'
+stages:
+  build_dataset:
+    cmd: python -m mlops.src.features.build_dataset --dataset dataset --output 
+      mlops/data/processed/training.csv
+    deps:
+    - path: dataset
+      hash: md5
+      md5: 1012bf3f246a2a8e962bca3a0cfe6b40.dir
+      size: 35809308
+      nfiles: 497
+    - path: mlops/src/features/build_dataset.py
+      hash: md5
+      md5: 7b013b5fd2038ec3f24f2d443cc49f5d
+      size: 4396
+    outs:
+    - path: mlops/data/processed/training.csv
+      hash: md5
+      md5: 8d56f55017252b54f816c42eb7eac080
+      size: 136497973
+  train:
+    cmd: python -m mlops.src.models.train
+    deps:
+    - path: mlops/data/processed/training.csv
+      hash: md5
+      md5: 8d56f55017252b54f816c42eb7eac080
+      size: 136497973
+    - path: mlops/src/models/train.py
+      hash: md5
+      md5: f084f70e9711342982ab53a7e1d27c5d
+      size: 4157
+    outs:
+    - path: mlops/models/rockettwin_xgb.joblib
+      hash: md5
+      md5: 2b93e9b4fc5cc3e3271445066470b64f
+      size: 2710871
+    - path: mlops/reports/metrics.json
+      hash: md5
+      md5: 4c7e957121056c4830cfaf0dd9daa6bf
+      size: 4262
+  validate:
+    cmd: python -m mlops.src.data.validate --dataset dataset
+    deps:
+    - path: dataset
+      hash: md5
+      md5: 1012bf3f246a2a8e962bca3a0cfe6b40.dir
+      size: 35809308
+      nfiles: 497
+    - path: mlops/src/data/validate.py
+      hash: md5
+      md5: 11c95c41af915412324b555acc8d260a
+      size: 1934
