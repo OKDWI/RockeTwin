@@ -188,6 +188,12 @@ class Tank:
 
         self.propellant_mass_lbm = max(0.0, self.propellant_mass_lbm - mdot * dt_seconds)
 
+        # Boil-off nudges LOX temperature/mass slightly during captive carry,
+        # using the paper's reported total lbm lost over the reported window [PM].
+        if self.config.propellant == Propellant.LOX and self.config.boiloff_total_lbm > 0:
+            boiloff_rate = self.config.boiloff_total_lbm / self.config.boiloff_window_seconds
+            self.propellant_mass_lbm = max(0.0, self.propellant_mass_lbm - boiloff_rate * dt_seconds)
+
         # Pressure linked to remaining mass fraction (simple, physically-motivated
         # coupling — not independent noise). Full-tank -> upper bound pressure,
         # empty -> lower bound. This is the "physics-informed" link called for
@@ -223,12 +229,6 @@ class Tank:
                               + self._vent_stuck_closed_pressure_surplus
         )
 
-        # Boil-off nudges LOX temperature/mass slightly during captive carry,
-        # using the paper's reported total lbm lost over the reported window [PM].
-        if self.config.propellant == Propellant.LOX and self.config.boiloff_total_lbm > 0:
-            boiloff_rate = self.config.boiloff_total_lbm / self.config.boiloff_window_seconds
-            self.propellant_mass_lbm = max(0.0, self.propellant_mass_lbm - boiloff_rate * dt_seconds)
-
     def _dump_flow_rate(self, dp_psi: float) -> float:
         c = self.config.dump_flow_coeffs
         if self.config.propellant == Propellant.LOX:
@@ -239,4 +239,8 @@ class Tank:
             return a + b * dp_psi + c2 * dp_psi**2 + c3 * dp_psi**3
 
     def is_overpressure(self) -> bool:
-        return self.pressure_psia >= self.config.proof_pressure_psig
+        ambient_pressure_psia = 14.6959  # Standard sea-level assumption
+        proof_pressure_psia = (
+                self.config.proof_pressure_psig + ambient_pressure_psia
+        )
+        return self.pressure_psia >= proof_pressure_psia

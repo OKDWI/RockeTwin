@@ -59,30 +59,48 @@ PHASE_ACTIONS: dict[str, Callable] = {
 }
 
 
-class MissionTimeline:
-    """Fires phase transitions into a RocketA instance at the right mission
-    time. Call `.advance(rocket)` once per tick, after rocket.tick()."""
 
-    def __init__(self, events: list[PhaseEvent] = None):
-        self.events = events or load_mission_timeline()
-        self._entered = set()
+class MissionTimeline:
+    """Apply every due mission event in deterministic timestamp/order sequence."""
+
+    def __init__(self, events: list[PhaseEvent] | None = None):
+        source_events = events if events is not None else load_mission_timeline()
+        self.events = sorted(
+            source_events,
+            key=lambda e: (e.time_s, e.phase_order),
+        )
+        self._next_event = 0
+        self._entered_phases = set()
 
     def advance(self, rocket) -> PhaseEvent | None:
-        """Call once per tick. Returns the PhaseEvent entered THIS tick, if
-        any (so the caller can log a phase-change record if desired)."""
-        for e in self.events:
-            if e.phase_name in self._entered:
-                continue
-            if rocket.mission_time_s >= e.time_s:
-                action = PHASE_ACTIONS.get(e.phase_name)
-                if action:
-                    action(rocket)
-                rocket.flight_phase = e.phase_name
-                self._entered.add(e.phase_name)
-                return e
-        return None
+        """Apply all events due at the rocket's current mission time.
 
-    def is_mission_complete(self, rocket) -> bool:
-        """True once the last phase (FREE_FLIGHT) has been entered — this is
-        the end of the captive-carry window this simulator models."""
-        return "FREE_FLIGHT" in self._entered
+        Returns the last event processed, preserving the existing return type.
+        """
+        last_event = None
+
+        while self._next_event < len(self.events):
+            event = self.events[self._next_event]
+
+            if rocket.mission_time_s < event.time_s:
+                break
+
+            action = PHASE_ACTIONS.get(event.phase_name)
+            if action is None:
+                raise ValueError(
+                    f"Unknown mission phase: {event.phase_name!r}"
+                )
+
+            action(rocket)
+            rocket.flight_phase = event.phase_name
+            self._entered_phases.add(event.phase_name)
+
+            self._next_event += 1
+            last_event = event
+
+        return last_event
+
+    def is_mission_complete(self, rocket=None) -> bool:
+        """True once the FREE_FLIGHT event has been processed."""
+        return "FREE_FLIGHT" in self._entered_phases
+

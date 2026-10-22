@@ -33,5 +33,12 @@ mlops/data/processed/
 Thumbs.db
 
 # Logs
-*.log
+*.log	
 /dataset
+
+
+node_modules/
+dist/
+.env
+.env.*
+!.env.example

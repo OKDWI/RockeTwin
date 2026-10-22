@@ -128,26 +128,45 @@ class RocketA:
     # ------------------------------------------------------------------
     # The one per-tick update — advances every component by dt_seconds.
     # ------------------------------------------------------------------
-    def tick(self, dt_seconds: float = 1.0) -> dict:
+
+    def tick(self, dt_seconds: float = 1.0, before_update=None) -> dict:
+        """Advance one simulation step and return one telemetry sample.
+
+        before_update, when supplied, runs after the mission clock advances
+        but before valves and tanks update. It is used to apply due timeline
+        commands and fault injections consistently.
+        """
+        if dt_seconds <= 0:
+            raise ValueError("dt_seconds must be positive")
+
         self.mission_time_s += dt_seconds
 
-        # valves update first, so their post-transition state is what gates
-        # tank drain this tick — a tank only loses feed-flow mass while its
-        # feed valve genuinely reports OPEN, per [LV] Table 1.
-        for v in self.valves.values():
-            v.update(dt_seconds)
+        if before_update is not None:
+            before_update()
+
+        for valve in self.valves.values():
+            valve.update(dt_seconds)
 
         self.lox_tank.update(
             dt_seconds,
             feed_valve_open=self.valves["pv03"].flow_allowed(),
-            vent_stuck_open=(self.valves["vr01"].state == ValveState.STUCK_OPEN),
-            vent_stuck_closed=(self.valves["vr01"].state == ValveState.STUCK_CLOSED),
+            vent_stuck_open=(
+                    self.valves["vr01"].state == ValveState.STUCK_OPEN
+            ),
+            vent_stuck_closed=(
+                    self.valves["vr01"].state == ValveState.STUCK_CLOSED
+            ),
         )
+
         self.rp1_tank.update(
             dt_seconds,
             feed_valve_open=self.valves["pv02"].flow_allowed(),
-            vent_stuck_open=(self.valves["vr06"].state == ValveState.STUCK_OPEN),
-            vent_stuck_closed=(self.valves["vr06"].state == ValveState.STUCK_CLOSED),
+            vent_stuck_open=(
+                    self.valves["vr06"].state == ValveState.STUCK_OPEN
+            ),
+            vent_stuck_closed=(
+                    self.valves["vr06"].state == ValveState.STUCK_CLOSED
+            ),
         )
 
         return self._read_telemetry_row()
@@ -201,20 +220,29 @@ def generate_mission(duration_s: float = 9776, dt_seconds: float = 1.0,
     the brief's dataset structure (see write_mission_csv)."""
     rocket = RocketA()
     timeline = MissionTimeline()
+    timeline.advance(rocket)
     injector = FaultInjector(fault_scenario_ids) if fault_scenario_ids else None
 
     telemetry_rows, state_rows = [], []
 
     t = 0.0
-    while t < duration_s:
-        rocket.tick(dt_seconds)
+
+    def before_update():
         timeline.advance(rocket)
         if injector:
             injector.check(rocket)
 
-        telemetry_rows.append(rocket._read_telemetry_row())
+    t = 0.0
+    while t < duration_s:
+        telemetry_row = rocket.tick(
+            dt_seconds,
+            before_update=before_update,
+        )
+
+        telemetry_rows.append(telemetry_row)
         state_rows.append(rocket.true_state_row())
         t = rocket.mission_time_s
+
 
     return {"telemetry": telemetry_rows, "state": state_rows, "events": rocket.active_faults}
 
@@ -248,14 +276,22 @@ def stream_mission(dt_seconds: float = 1.0, realtime: bool = False,
                     fault_scenario_ids: Optional[list[int]] = None):
     rocket = RocketA()
     timeline = MissionTimeline()
+    timeline.advance(rocket)
     injector = FaultInjector(fault_scenario_ids) if fault_scenario_ids else None
 
-    while True:
-        rocket.tick(dt_seconds)
+
+    def before_update():
         timeline.advance(rocket)
         if injector:
             injector.check(rocket)
 
-        yield rocket._read_telemetry_row()
+    while True:
+        telemetry_row = rocket.tick(
+            dt_seconds,
+            before_update=before_update,
+        )
+
+        yield telemetry_row
+
         if realtime:
             time.sleep(dt_seconds)
